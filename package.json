@@ -1,0 +1,23 @@
+{
+  "name": "advancedtopic",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "~1.17.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.3",
+    "ejs": "~2.5.6",
+    "express": "~4.15.2",
+    "mongodb": "^2.2.33",
+    "mongoose": "^4.12.2",
+    "morgan": "~1.8.1",
+    "query-string": "^5.0.0",
+    "serve-favicon": "~2.4.2",
+    "spotify-web-api-node": "^2.5.0",
+    "underscore": "^1.8.3"
+  }
+}
