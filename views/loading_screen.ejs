@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <script src="/javascripts/jquery/jquery-3.2.1.min.js"></script>
+    <script src="/bootstrap-4.0.0/js/bootstrap.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/javascripts/getCookie.js"></script>
+</head>
+<body>
+<h1><%= title %></h1>
+<p>Fetching data</p>
+<img src="/images/giphy.webp">
+</body>
+<script>
+    var socket = io();
+    var cookie = getCookie('avatarID');
+    socket.on('redirect', function (data) {
+        console.log(data)
+
+        if(cookie === data.spotifyID){
+            window.location.assign('/avatar')
+        }
+
+    });
+    console.log(cookie);
+</script>
+</html>

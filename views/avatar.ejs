@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <script src="/javascripts/jquery/jquery-3.2.1.min.js"></script>
+    <script src="/bootstrap-4.0.0/js/bootstrap.min.js"></script>
+    <script src="/javascripts/d3js/d3.min.js"></script>
+    <script src="/javascripts/getCookie.js"></script>
+</head>
+<body>
+<h1><%= title %></h1>
+<p>Welcome to <%= title %></p>
+<div id="grid"></div>
+
+</body>
+<script>
+    var timeStamp = getCookie('avatarTimeStamp');
+    var spotifyID = getCookie('avatarID');
+    if(spotifyID){
+        if(Date.now() - timeStamp > 300000){
+            window.location.assign('/spotify/userUpdate/' + spotifyID)
+        }
+
+    }else {
+        window.location.assign('/')
+    }
+
+    $.ajax({url: '/spotify/avatar/' + spotifyID, success: function (result) {
+            console.log(result)
+            if(result.avatar === null || result.avatar === ''){
+                window.location.assign('/chooseAvatar')
+            } else {
+                if(result.showAvatar){
+                    var avatar = new Avatar(result)
+                    avatar.generateAvatar();
+                } else {
+                    $('#grid').append('<p>Sorry we did not get any records for the past two hours</p>')
+                }
+
+            }
+        }})
+
+</script>
+<script src="/javascripts/visualisation/avatar.js"></script>
+
+<script>
+
+</script>
+
+</html>

@@ -3,11 +3,27 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-
+    <script src="/javascripts/jquery/jquery-3.2.1.min.js"></script>
+    <script src="/bootstrap-4.0.0/js/bootstrap.min.js"></script>
+    <script src="/javascripts/getCookie.js"></script>
   </head>
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
+    <p id="demo"></p>
+
+
+
+
     <a href="/spotify/spotifylogin" >GoGoGo</a>
-  </body>
+
+   </body>
+  <script>
+      let cookie = getCookie('avatarID');
+      console.log(cookie);
+      if(cookie){
+          window.location.assign('/spotify/userUpdate/' + cookie)
+      }
+
+  </script>
 </html>
