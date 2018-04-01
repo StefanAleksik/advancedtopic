@@ -12,8 +12,10 @@ function Avatar(obj) {
         var static = this.returnStaticElements(obj.avatar);
         var dynamic = this.generateDynamicElemnts(obj);
         var avatar = dynamic.concat(static)
-        var grid = this.avatarToGrid(avatar);
-        this.render(grid);
+        var size = this.getWindowSize()
+        var grid = this.avatarToGrid(avatar, size.squereSideSize);
+
+        this.render(grid, size);
     }
 }
 
@@ -23,16 +25,16 @@ function AvatarDynamicBody() {
             var temp = [
                 {
                     bodyPart: {type: 'dynamic', element: 'eyebrow'},
-                    startx: 36,
-                    endx: 39,
+                    startx: 8,
+                    endx: 11,
                     starty: 8 - y,
                     endy: 8 - y,
                     color: this.colors.hair
                 },
                 {
                     bodyPart: {type: 'dynamic', element: 'eyebrow'},
-                    startx: 45,
-                    endx: 48,
+                    startx: 17,
+                    endx: 20,
                     starty: 8 - y,
                     endy: 8 - y,
                     color: this.colors.hair
@@ -45,32 +47,32 @@ function AvatarDynamicBody() {
             var temp = [
                 {
                     bodyPart: {type: 'dynamic', element: 'eyebrow'},
-                    startx: 36,
-                    endx: 37,
+                    startx: 8,
+                    endx: 9,
                     starty: 7 - y,
                     endy: 7 - y,
                     color: this.colors.hair
                 },
                 {
                     bodyPart: {type: 'dynamic', element: 'eyebrow'},
-                    startx: 38,
-                    endx: 39,
+                    startx: 10,
+                    endx: 11,
                     starty: 8 - y,
                     endy: 8 - y,
                     color: this.colors.hair
                 },
                 {
                     bodyPart: {type: 'dynamic', element: 'eyebrow'},
-                    startx: 45,
-                    endx: 46,
+                    startx: 17,
+                    endx: 18,
                     starty: 7 - y,
                     endy: 7 - y,
                     color: this.colors.hair
                 },
                 {
                     bodyPart: {type: 'dynamic', element: 'eyebrow'},
-                    startx: 47,
-                    endx: 48,
+                    startx: 19,
+                    endx: 20,
                     starty: 8 - y,
                     endy: 8 - y,
                     color: this.colors.hair
@@ -82,32 +84,32 @@ function AvatarDynamicBody() {
             var temp = [
                 {
                     bodyPart: {type: 'dynamic', element: 'eyebrow'},
-                    startx: 36,
-                    endx: 37,
+                    startx: 8,
+                    endx: 9,
                     starty: 8 - y,
                     endy: 8 - y,
                     color: this.colors.hair
                 },
                 {
                     bodyPart: {type: 'dynamic', element: 'eyebrow'},
-                    startx: 38,
-                    endx: 39,
+                    startx: 10,
+                    endx: 11,
                     starty: 7 - y,
                     endy: 7 - y,
                     color: this.colors.hair
                 },
                 {
                     bodyPart: {type: 'dynamic', element: 'eyebrow'},
-                    startx: 45,
-                    endx: 46,
+                    startx: 17,
+                    endx: 18,
                     starty: 8 - y,
                     endy: 8 - y,
                     color: this.colors.hair
                 },
                 {
                     bodyPart: {type: 'dynamic', element: 'eyebrow'},
-                    startx: 47,
-                    endx: 48,
+                    startx: 19,
+                    endx: 20,
                     starty: 7 - y,
                     endy: 7 - y,
                     color: this.colors.hair
@@ -120,8 +122,8 @@ function AvatarDynamicBody() {
 
         this.leftEye = {
             bodyPart: {type: 'dynamic', element: 'pupil'},
-            startx: 36 + x,
-            endx: 37 + x,
+            startx: 8 + x,
+            endx: 9 + x,
             starty: 11 - y,
             endy: 12 - y,
             color: this.colors.eye_pupil
@@ -129,8 +131,8 @@ function AvatarDynamicBody() {
 
         this.rightEye = {
             bodyPart: {type: 'dynamic', element: 'pupil'},
-            startx: 45 + x,
-            endx:46 + x,
+            startx: 17 + x,
+            endx:18 + x,
             starty: 11 - y,
             endy: 12 - y,
             color: this.colors.eye_pupil
@@ -143,8 +145,8 @@ function AvatarDynamicBody() {
             var temp = [
                 {
                     bodyPart: {type: 'dynamic', element: 'mouth'},
-                    startx: 40,
-                    endx: 44,
+                    startx: 12,
+                    endx: 16,
                     starty: 17,
                     endy: 17,
                     color: this.colors.mouth
@@ -154,16 +156,16 @@ function AvatarDynamicBody() {
             var temp = [
                 {
                     bodyPart: {type: 'dynamic', element: 'mouth'},
-                    startx: 40,
-                    endx: 44,
+                    startx: 12,
+                    endx: 16,
                     starty: 17,
                     endy: 17,
                     color: this.colors.mouth
                 },
                 {
                     bodyPart: {type: 'dynamic', element: 'mouth'},
-                    startx: 41,
-                    endx: 43,
+                    startx: 13,
+                    endx: 15,
                     starty: 18,
                     endy: 18,
                     color: this.colors.mouth
@@ -173,24 +175,24 @@ function AvatarDynamicBody() {
             var temp = [
                 {
                     bodyPart: {type: 'dynamic', element: 'mouth'},
-                    startx: 39,
-                    endx: 45,
+                    startx: 11,
+                    endx: 17,
                     starty: 17,
                     endy: 17,
                     color: this.colors.mouth
                 },
                 {
                     bodyPart: {type: 'dynamic', element: 'mouth'},
-                    startx: 40,
-                    endx: 44,
+                    startx: 12,
+                    endx: 16,
                     starty: 18,
                     endy: 18,
                     color: this.colors.mouth
                 },
                 {
                     bodyPart: {type: 'dynamic', element: 'mouth'},
-                    startx: 41,
-                    endx: 43,
+                    startx: 13,
+                    endx: 15,
                     starty: 19,
                     endy: 19,
                     color: this.colors.mouth
@@ -204,70 +206,86 @@ function AvatarDynamicBody() {
             var temp = [
                 {
                     bodyPart: {type: 'dynamic', element: 'arm'},
-                    startx: 37,
-                    endx: 38,
+                    startx: 9,
+                    endx: 10,
                     starty: 25,
                     endy: 33,
                     color: this.colors.skin_light
                 },
                 {
                     bodyPart: {type: 'dynamic', element: 'arm'},
-                    startx: 46,
-                    endx: 47,
+                    startx: 18,
+                    endx: 19,
                     starty: 25,
                     endy: 33,
                     color: this.colors.skin_light
                 }
-            ]
+            ];
             return temp
         }
         else if (value === 2){
             var temp = [
                 {
                     bodyPart: {type: 'dynamic', element: 'arm'},
-                    startx: 35,
-                    endx: 36,
-                    starty: 16,
+                    startx: 5,
+                    endx: 8,
+                    starty: 23,
                     endy: 24,
                     color: this.colors.skin_light
                 },
                 {
                     bodyPart: {type: 'dynamic', element: 'arm'},
-                    startx: 48,
-                    endx: 49,
-                    starty: 16,
+                    startx: 20,
+                    endx: 23,
+                    starty: 23,
                     endy: 24,
                     color: this.colors.skin_light
+                },
+                {
+                    bodyPart: {type: 'dynamic', element: 'arm'},
+                    startx: 5,
+                    endx: 6,
+                    starty: 16,
+                    endy: 22,
+                    color: this.colors.skin_light
+                },
+                {
+                    bodyPart: {type: 'dynamic', element: 'arm'},
+                    startx: 22,
+                    endx: 23,
+                    starty: 16,
+                    endy: 22,
+                    color: this.colors.skin_light
                 }
-            ]
+            ];
             return temp
         } else {
             var temp = [
                 {
                     bodyPart: {type: 'dynamic', element: 'arm'},
-                    startx: 28,
-                    endx: 36,
+                    startx: 0,
+                    endx: 8,
                     starty: 23,
                     endy: 24,
                     color: this.colors.skin_light
                 },
                 {
                     bodyPart: {type: 'dynamic', element: 'arm'},
-                    startx: 48,
-                    endx: 56,
+                    startx: 20,
+                    endx: 28,
                     starty: 23,
                     endy: 24,
                     color: this.colors.skin_light
                 }
-            ]
+            ];
             return temp
         }
     };
 
-    this.avatarScale = function (number) {
-        if(number < 38){
+    this.avatarScale = function (number, low, medium) {
+        if(number <= low){
             return 0
-        } else if (number < 76 && number > 38){
+        } else if (number <= medium && number > low){
             return 1
         } else {
             return 2
@@ -275,11 +293,11 @@ function AvatarDynamicBody() {
     };
 
     this.generateDynamicElemnts = function (obj) {
-        this.eX = this.avatarScale(obj.song);
-        this.eY = this.avatarScale(obj.artist);
-        this.aV = this.avatarScale(obj.energy);
-        this.mV = this.avatarScale(obj.timePlayed);
-
+        this.eX = this.avatarScale(obj.song, 40, 75);
+        this.eY = this.avatarScale(obj.artist, 40, 75);
+        this.aV = this.avatarScale(obj.energy, 40, 80);
+        this.mV = this.avatarScale(obj.timePlayed, 34, 67);
+        console.log('this is: ex and ey ' + this.eX + ' ' + this.eY);
         this.eyes = this.generateEyes(this.eX, this.eY);
         this.eyeBrows = this.generateEyeBrows(this.eX, this.eY);
         this.mouthh = this.generateMouth(this.mV);
@@ -291,188 +309,187 @@ function AvatarDynamicBody() {
     }
 
 }
-
 function AvatarStaticBody() {
     this.female = [
         {   bodyPart: {type: 'static', element: 'face'},
-            startx:45,
-            endx: 48,
+            startx:17,
+            endx: 20,
             starty: 9,
             endy: 12,
             color: this.colors.robot_elements},
         {   bodyPart: {type: 'static', element: 'face'},
-            startx:36,
-            endx: 39,
+            startx:8,
+            endx: 11,
             starty: 9,
             endy: 12,
             color: this.colors.robot_elements},
         {   bodyPart: {type: 'static', element: 'face'},
-            startx:35,
-            endx: 49,
+            startx:7,
+            endx: 21,
             starty: 4,
             endy: 20,
             color: this.colors.skin},
         {   bodyPart: {type: 'static', element: 'face'},
-            startx:50,
-            endx: 50,
+            startx:22,
+            endx: 22,
             starty: 10,
             endy: 13,
             color: this.colors.skin},
         {   bodyPart: {type: 'static', element: 'face'},
-            startx:34,
-            endx: 34,
+            startx:6,
+            endx: 6,
             starty: 10,
             endy: 13,
             color: this.colors.skin},
         {   bodyPart: {type: 'static', element: 'neck'},
-            startx:40,
-            endx: 44,
+            startx:12,
+            endx: 16,
             starty: 21,
             endy: 23,
             color: this.colors.skin},
         {   bodyPart: {type: 'static', element: 'shirt'},
-            startx:39,
-            endx: 45,
+            startx:11,
+            endx: 17,
             starty: 22,
             endy: 39,
             color: this.colors.top_part},
         {   bodyPart: {type: 'static', element: 'shirt'},
-            startx:37,
-            endx: 47,
+            startx:9,
+            endx: 19,
             starty: 23,
             endy: 24,
             color: this.colors.top_part},
         {   bodyPart: {type: 'static', element: 'legs'},
-            startx:40,
-            endx: 41,
+            startx:12,
+            endx: 13,
             starty: 40,
             endy: 46,
             color: this.colors.pants},
         {   bodyPart: {type: 'static', element: 'legs'},
-            startx:43,
-            endx: 44,
+            startx:15,
+            endx: 16,
             starty: 40,
             endy: 46,
             color: this.colors.pants},
         {   bodyPart: {type: 'static', element: 'shoos'},
-            startx:38,
-            endx: 41,
+            startx:10,
+            endx: 13,
             starty: 47,
             endy: 48,
             color: this.colors.shoos},
         {   bodyPart: {type: 'static', element: 'shoos'},
-            startx:43,
-            endx: 46,
+            startx:15,
+            endx: 18,
             starty: 47,
             endy: 48,
             color: this.colors.shoos},
         {   bodyPart: {type: 'static', element: 'hair'},
-            startx:33,
-            endx: 51,
+            startx:5,
+            endx: 23,
             starty: 1,
             endy: 13,
             color: this.colors.hair},
         {   bodyPart: {type: 'static', element: 'hair'},
-            startx:32,
-            endx: 52,
+            startx:4,
+            endx: 24,
             starty: 14,
             endy: 16,
             color: this.colors.hair},
         {   bodyPart: {type: 'static', element: 'hair'},
-            startx:34,
-            endx: 50,
+            startx:6,
+            endx: 22,
             starty: 17,
             endy: 17,
             color: this.colors.hair}
     ];
     this.male = [
         {   bodyPart: {type: 'static', element: 'face'},
-            startx:45,
-            endx: 48,
+            startx:17,
+            endx: 20,
             starty: 9,
             endy: 12,
             color: this.colors.robot_elements},
         {   bodyPart: {type: 'static', element: 'face'},
-            startx:36,
-            endx: 39,
+            startx:8,
+            endx: 11,
             starty: 9,
             endy: 12,
             color: this.colors.robot_elements},
         {   bodyPart: {type: 'static', element: 'face'},
-            startx:35,
-            endx: 49,
+            startx:7,
+            endx: 21,
             starty: 4,
             endy: 20,
             color: this.colors.skin},
         {   bodyPart: {type: 'static', element: 'face'},
-            startx:50,
-            endx: 50,
+            startx:22,
+            endx: 22,
             starty: 10,
             endy: 13,
             color: this.colors.skin},
         {   bodyPart: {type: 'static', element: 'face'},
-            startx:34,
-            endx: 34,
+            startx:6,
+            endx: 6,
             starty: 10,
             endy: 13,
             color: this.colors.skin},
         {   bodyPart: {type: 'static', element: 'neck'},
-            startx:40,
-            endx: 44,
+            startx:12,
+            endx: 16,
             starty: 21,
             endy: 22,
             color: this.colors.skin},
         {   bodyPart: {type: 'static', element: 'shirt'},
-            startx:39,
-            endx: 45,
+            startx:11,
+            endx: 17,
             starty: 22,
             endy: 33,
             color: this.colors.top_part},
         {   bodyPart: {type: 'static', element: 'shirt'},
-            startx:37,
-            endx: 47,
+            startx:9,
+            endx: 19,
             starty: 23,
             endy: 24,
             color: this.colors.top_part},
         {   bodyPart: {type: 'static', element: 'legs'},
-            startx:39,
-            endx: 45,
+            startx:11,
+            endx: 17,
             starty: 34,
             endy: 34,
             color: this.colors.belt},
         {   bodyPart: {type: 'static', element: 'legs'},
-            startx:39,
-            endx: 45,
+            startx:11,
+            endx: 17,
             starty: 35,
             endy: 36,
             color: this.colors.pants},
         {   bodyPart: {type: 'static', element: 'legs'},
-            startx:43,
-            endx: 45,
+            startx:15,
+            endx: 17,
             starty: 37,
             endy: 46,
             color: this.colors.pants},
         {   bodyPart: {type: 'static', element: 'legs'},
-            startx:39,
-            endx: 41,
+            startx:11,
+            endx: 13,
             starty: 37,
             endy: 46,
             color: this.colors.pants},
         {   bodyPart: {type: 'static', element: 'shoos'},
-            startx:43,
-            endx: 47,
+            startx:15,
+            endx: 19,
             starty: 47,
             endy: 48,
             color: this.colors.shoos},
         {   bodyPart: {type: 'static', element: 'shoos'},
-            startx:37,
-            endx: 41,
+            startx:9,
+            endx: 13,
             starty: 47,
             endy: 48,
             color: this.colors.shoos},
         {   bodyPart: {type: 'static', element: 'hair'},
-            startx:34,
-            endx: 50,
+            startx:6,
+            endx: 22,
             starty: 2,
             endy: 9,
             color: this.colors.hair}
@@ -485,7 +502,6 @@ function AvatarStaticBody() {
     }
 
 }
-
 function AvatarColors() {
     this.colors = {
         hair: '#231F20',
@@ -502,7 +518,6 @@ function AvatarColors() {
         mouth: '#CC3333'
     };
 }
-
 function Grid() {
     this.pixelizeAvatar =function (obj){
         var ids = [];
@@ -525,14 +540,22 @@ function Grid() {
         });
         return color
     }
+    this.getWindowSize = function () {
+        var width = $('#grid').width();
+        var squereSideSize = Math.floor(width/28);
+        var svgWidth = 29*squereSideSize;
+        var svgHeight = 49*squereSideSize;
 
-    this.avatarToGrid = function(obj) {
-        var data = [], xpos = 0, ypos = 0, width = 5, height = 5, pixels = this.pixelizeAvatar(obj);
+        return {squereSideSize: squereSideSize, svgWidth: svgWidth, svgHeight: svgHeight}
+
+    }
+    this.avatarToGrid = function(obj, squareSize) {
+        var data = [], xpos = 0, ypos = 0, width = squareSize, height = squareSize, pixels = this.pixelizeAvatar(obj);
         // iterate for rows
-        for (var row = 0; row < 50; row++) {
+        for (var row = 0; row < 49; row++) {
             data.push([]);
             // iterate for cells/columns inside rows
-            for (var column = 0; column < 80; column++) {
+            for (var column = 0; column < 28; column++) {
                 var posID = 'X' + column.toString() +'Y' + row.toString(),
                     color = this.colorPixel(posID, pixels);
                 data[row].push({
@@ -555,15 +578,16 @@ function Grid() {
         return data;
     };
 
-    this.render = function (data) {
+
+    this.render = function (data, obj) {
         d3.select("#grid")
             .append("svg")
-            .attr("width","400px")
-            .attr("height","250px")
-            .selectAll(".row")
+            .attr("width", obj.svgWidth)
+            .attr("height",obj.svgHeight)
+            .selectAll(".roww")
             .data(data)
             .enter().append("g")
-            .attr("class", "row")
+            .attr("class", "roww")
             .selectAll(".square")
             .data(function(d) { return d; })
             .enter().append("rect")

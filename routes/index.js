@@ -22,4 +22,17 @@ router.get('/chooseAvatar', function (req, res) {
     res.render('choose_avatar', {title: 'Choose Avatar'})
 });
 
+router.get('/login/:password', function (req, res) {
+    let password = req.params.password;
+    console.log(password)
+    if(password === ''){
+        res.cookie('loginPass', '')
+        res.render('dashboard', {title: 'Dashboard'})
+    } else {
+        res.send('Wrong password!')
+    }
+
+});
+
+
 module.exports = router;

@@ -57,45 +57,84 @@ module.exports.spotifyUpdateInterval = function (req, res) {
     res.send('Interval started at: ' + Date.now())
 };
 module.exports.updateUserAvatarType = function (req, res) {
-    let id = req.cookies.avatarID
+    let id = req.cookies.avatarID;
     let avatarType = req.body.gender;
     Schema.User.findOne({spotifyID: id}, function (err, user) {
         if (err) throw err;
         user.avatar_type = avatarType;
         user.save(function (err, saVe) {
+            res.status(204).send()
             if (err) throw err;
         })
     })
-    //console.log(avatar + user)
-    //res.redirect('/avatar')
-}
+};
+module.exports.userOpinion = function (req, res) {
+    let id = req.cookies.avatarID;
+    let comment = req.body.comment;
+    let timeStamp = Date.now();
+    let opinion = req.body.userLikert;
+
+    let newOpinion = new Schema.UserOpinion({'spotifyID': id, 'timeStamp': timeStamp, 'comment': comment, 'opinion': opinion})
+    newOpinion.save(function (err, op) {
+        if (err) throw err;
+        res.status(204).send()
+    })
+
+};
+
 //Thread controllers
 module.exports.musicFeatures = function (req, res) {
-    Schema.MusicFeatures.find(function(err, threads) {
+    let pass = req.cookies.loginPass;
+    if(pass === ''){
+        Schema.MusicFeatures.find(function(err, threads) {
         res.send(threads);
     });
+    } else {
+        res.send('Wrong password')
+    }
+
+
 };
 module.exports.userThread = function (req, res) {
-    Schema.User.find(function(err, threads) {
+    let pass = req.cookies.loginPass;
+    if(pass === ''){Schema.User.find(function(err, threads) {
         res.send(threads);
-    });
+    });} else {res.send('Wrong password')}
+
 };
 module.exports.dataThread = function (req, res) {
-    Schema.UserData.find(function(err, threads) {
+    let pass = req.cookies.loginPass;
+    if(pass === ''){Schema.UserData.find(function(err, threads) {
         res.send(threads);
-    });
+    });} else {res.send('Wrong password')}
+
 };
 module.exports.avatarSptifyID = async function (req, res) {
     let userID = await req.params.spotifyID;
     let data = await getLastTwoHours(userID);
+  //  console.log(data)
     if(data.data.length > 0){
-        let sortedData = await calculateAvatar(data)
+        let sortedData = await calculateAvatar(data);
+
         res.send(sortedData)
     } else {
         res.send(
             {showAvatar: false,
                 avatar: data.avatar})
     }
+};
+module.exports.userOpinions = function (req, res) {
+    let pass = req.cookies.loginPass;
+    if(pass === ''){Schema.UserOpinion.find(function (err, thread) {
+        res.send(thread)
+    })} else {res.send('Wrong password')}
+
+};
+module.exports.userVisits = function (req, res) {
+    let pass = req.cookies.loginPass;
+    if(pass === ''){Schema.UserActivity.find(function (err, thread) {
+        res.send(thread)
+    })} else {res.send('Wrong password')}
 };
 
 
@@ -199,6 +238,7 @@ async function updateUser(string) {
         });
     } else {
         //global._io.emit('redirect', {spotifyID: string})
+        logger(user, false, false);
         console.log('Wait for 5 min lets not spam the company')
     }
 
@@ -211,9 +251,15 @@ async function updateUsersInterval() {
     }
 setTimeout(updateUsersInterval, 14400000)
 }
-
+async function logger(obj, bool, bool2) {
+    let timeStamp = Date.now();
+    let log = new Schema.UserActivity({spotifyID: obj.spotifyID, timeStamp: timeStamp, firstVisit: bool, 'didFetchData': bool2});
+    log.save(function (err, l) {
+        if (err) throw err;
+    })
+}
 //GET DATA AND SAVE IT SEGMENT
-//4. Save the recent songs to the UserData object
+//4. Save the recent songs to the UserData object + Log every save as a User activity
 async function saveToUserData(obj) {
     await Schema.User.findOne({spotifyID: obj.obj.spotifyID}, function (err, user) {
        if (err) throw err;
@@ -223,6 +269,7 @@ async function saveToUserData(obj) {
            console.log('timeStampSaved')
        })
     });
+    logger(obj.obj, obj.newUser, obj.temp.length > 0);
     return new Promise(function (resolve, reject) {
         if(obj.newUser){
             let newUserData = new Schema.UserData({'spotifyID': obj.obj.spotifyID, 'recentlyPlayed': obj.temp});

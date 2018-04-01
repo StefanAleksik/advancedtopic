@@ -20,5 +20,8 @@
     "socket.io": "^2.0.4",
     "spotify-web-api-node": "^2.5.0",
     "underscore": "^1.8.3"
+  },
+  "engines": {
+    "node": "8.9.3"
   }
 }

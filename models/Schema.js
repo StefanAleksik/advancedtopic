@@ -18,6 +18,20 @@ module.exports = function(mongoose) {
             'avatar_type': String || null
     },{collection: 'User'});
 
+    let userOpinion = new Schema({
+        'spotifyID': String,
+        'timeStamp': Date,
+        'comment': String,
+        'opinion': Number
+    }, {collection: 'UserOpinion'});
+
+    let userActivity = new Schema({
+        'spotifyID': String,
+        'timeStamp': Date,
+        'firstVisit': Boolean,
+        'didFetchData': Boolean
+    }, {collection: 'UserActivity'});
+
     let userData = new Schema({
             'spotifyID': String,
             'recentlyPlayed': [{
@@ -43,5 +57,7 @@ module.exports = function(mongoose) {
     return { User : mongoose.model('User', user),
             MusicFeatures: mongoose.model('MusicFeatures', songs),
             //Calendar: mongoose.model('Calendar', calendar),
-            UserData: mongoose.model('UserData', userData)};
+            UserData: mongoose.model('UserData', userData),
+            UserActivity: mongoose.model('UserActivity', userActivity),
+            UserOpinion: mongoose.model('UserOpinion', userOpinion)};
 };
