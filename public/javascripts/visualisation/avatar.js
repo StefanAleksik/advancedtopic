@@ -5,14 +5,14 @@
 function Avatar(obj) {
     AvatarColors.call(this);
     AvatarStaticBody.call(this);
-    AvatarDynamicBody.call(this)
+    AvatarDynamicBody.call(this);
     Grid.call(this);
 
     this.generateAvatar =function () {
         var static = this.returnStaticElements(obj.avatar);
         var dynamic = this.generateDynamicElemnts(obj);
-        var avatar = dynamic.concat(static)
-        var size = this.getWindowSize()
+        var avatar = dynamic.concat(static);
+        var size = this.getWindowSize();
         var grid = this.avatarToGrid(avatar, size.squereSideSize);
 
         this.render(grid, size);
@@ -27,16 +27,16 @@ function AvatarDynamicBody() {
                     bodyPart: {type: 'dynamic', element: 'eyebrow'},
                     startx: 8,
                     endx: 11,
-                    starty: 8 - y,
-                    endy: 8 - y,
+                    starty: 9 - y,
+                    endy: 9 - y,
                     color: this.colors.hair
                 },
                 {
                     bodyPart: {type: 'dynamic', element: 'eyebrow'},
                     startx: 17,
                     endx: 20,
-                    starty: 8 - y,
-                    endy: 8 - y,
+                    starty: 9 - y,
+                    endy: 9 - y,
                     color: this.colors.hair
                 }
             ];
@@ -49,32 +49,32 @@ function AvatarDynamicBody() {
                     bodyPart: {type: 'dynamic', element: 'eyebrow'},
                     startx: 8,
                     endx: 9,
-                    starty: 7 - y,
-                    endy: 7 - y,
+                    starty: 8 - y,
+                    endy: 8 - y,
                     color: this.colors.hair
                 },
                 {
                     bodyPart: {type: 'dynamic', element: 'eyebrow'},
                     startx: 10,
                     endx: 11,
-                    starty: 8 - y,
-                    endy: 8 - y,
+                    starty: 9 - y,
+                    endy: 9 - y,
                     color: this.colors.hair
                 },
                 {
                     bodyPart: {type: 'dynamic', element: 'eyebrow'},
                     startx: 17,
                     endx: 18,
-                    starty: 7 - y,
-                    endy: 7 - y,
+                    starty: 8 - y,
+                    endy: 8 - y,
                     color: this.colors.hair
                 },
                 {
                     bodyPart: {type: 'dynamic', element: 'eyebrow'},
                     startx: 19,
                     endx: 20,
-                    starty: 8 - y,
-                    endy: 8 - y,
+                    starty: 9 - y,
+                    endy: 9 - y,
                     color: this.colors.hair
                 }
             ];
@@ -86,32 +86,32 @@ function AvatarDynamicBody() {
                     bodyPart: {type: 'dynamic', element: 'eyebrow'},
                     startx: 8,
                     endx: 9,
-                    starty: 8 - y,
-                    endy: 8 - y,
+                    starty: 9 - y,
+                    endy: 9 - y,
                     color: this.colors.hair
                 },
                 {
                     bodyPart: {type: 'dynamic', element: 'eyebrow'},
                     startx: 10,
                     endx: 11,
-                    starty: 7 - y,
-                    endy: 7 - y,
-                    color: this.colors.hair
-                },
-                {
-                    bodyPart: {type: 'dynamic', element: 'eyebrow'},
-                    startx: 17,
-                    endx: 18,
                     starty: 8 - y,
                     endy: 8 - y,
                     color: this.colors.hair
                 },
                 {
                     bodyPart: {type: 'dynamic', element: 'eyebrow'},
+                    startx: 17,
+                    endx: 18,
+                    starty: 9 - y,
+                    endy: 9 - y,
+                    color: this.colors.hair
+                },
+                {
+                    bodyPart: {type: 'dynamic', element: 'eyebrow'},
                     startx: 19,
                     endx: 20,
-                    starty: 7 - y,
-                    endy: 7 - y,
+                    starty: 8 - y,
+                    endy: 8 - y,
                     color: this.colors.hair
                 }
             ];
@@ -123,18 +123,18 @@ function AvatarDynamicBody() {
         this.leftEye = {
             bodyPart: {type: 'dynamic', element: 'pupil'},
             startx: 8 + x,
-            endx: 9 + x,
-            starty: 11 - y,
-            endy: 12 - y,
+            endx: 8 + x,
+            starty: 13 - y,
+            endy: 13 - y,
             color: this.colors.eye_pupil
         };
 
         this.rightEye = {
             bodyPart: {type: 'dynamic', element: 'pupil'},
             startx: 17 + x,
-            endx:18 + x,
-            starty: 11 - y,
-            endy: 12 - y,
+            endx:17 + x,
+            starty: 13 - y,
+            endy: 13 - y,
             color: this.colors.eye_pupil
         };
 
@@ -147,40 +147,13 @@ function AvatarDynamicBody() {
                     bodyPart: {type: 'dynamic', element: 'mouth'},
                     startx: 12,
                     endx: 16,
-                    starty: 17,
-                    endy: 17,
-                    color: this.colors.mouth
-                }];
-            return temp
-        } else if (value === 1) {
-            var temp = [
-                {
-                    bodyPart: {type: 'dynamic', element: 'mouth'},
-                    startx: 12,
-                    endx: 16,
-                    starty: 17,
-                    endy: 17,
-                    color: this.colors.mouth
-                },
-                {
-                    bodyPart: {type: 'dynamic', element: 'mouth'},
-                    startx: 13,
-                    endx: 15,
                     starty: 18,
                     endy: 18,
                     color: this.colors.mouth
                 }];
             return temp
-        } else {
+        } else if (value === 1) {
             var temp = [
-                {
-                    bodyPart: {type: 'dynamic', element: 'mouth'},
-                    startx: 11,
-                    endx: 17,
-                    starty: 17,
-                    endy: 17,
-                    color: this.colors.mouth
-                },
                 {
                     bodyPart: {type: 'dynamic', element: 'mouth'},
                     startx: 12,
@@ -195,6 +168,33 @@ function AvatarDynamicBody() {
                     endx: 15,
                     starty: 19,
                     endy: 19,
+                    color: this.colors.mouth
+                }];
+            return temp
+        } else {
+            var temp = [
+                {
+                    bodyPart: {type: 'dynamic', element: 'mouth'},
+                    startx: 11,
+                    endx: 17,
+                    starty: 18,
+                    endy: 18,
+                    color: this.colors.mouth
+                },
+                {
+                    bodyPart: {type: 'dynamic', element: 'mouth'},
+                    startx: 12,
+                    endx: 16,
+                    starty: 19,
+                    endy: 19,
+                    color: this.colors.mouth
+                },
+                {
+                    bodyPart: {type: 'dynamic', element: 'mouth'},
+                    startx: 13,
+                    endx: 15,
+                    starty: 20,
+                    endy: 20,
                     color: this.colors.mouth
                 }];
             return temp
@@ -245,7 +245,7 @@ function AvatarDynamicBody() {
                     bodyPart: {type: 'dynamic', element: 'arm'},
                     startx: 5,
                     endx: 6,
-                    starty: 16,
+                    starty: 18,
                     endy: 22,
                     color: this.colors.skin_light
                 },
@@ -253,7 +253,7 @@ function AvatarDynamicBody() {
                     bodyPart: {type: 'dynamic', element: 'arm'},
                     startx: 22,
                     endx: 23,
-                    starty: 16,
+                    starty: 18,
                     endy: 22,
                     color: this.colors.skin_light
                 }
@@ -292,13 +292,27 @@ function AvatarDynamicBody() {
         }
     };
 
+    this.avatarEyeScale = function (number, low, lowmedium,medium) {
+        if(number <= low){
+            return 0
+        } else if (number <= lowmedium && number > low){
+            return 1
+        } else if (number <= medium && number > lowmedium){
+            return 2
+        } else {
+            return 3
+        }
+    };
+
     this.generateDynamicElemnts = function (obj) {
-        this.eX = this.avatarScale(obj.song, 40, 75);
-        this.eY = this.avatarScale(obj.artist, 40, 75);
-        this.aV = this.avatarScale(obj.energy, 40, 80);
+        this.eX = this.avatarScale(obj.song, 25, 75);
+        this.eY = this.avatarScale(obj.artist, 25, 75);
+        this.eyesX = this.avatarEyeScale(obj.song, 25, 50, 75);
+        this.eyesY = this.avatarEyeScale(obj.artist, 25, 50, 75);
+        this.aV = this.avatarScale(obj.danceability, 50, 78);
         this.mV = this.avatarScale(obj.timePlayed, 34, 67);
-        console.log('this is: ex and ey ' + this.eX + ' ' + this.eY);
-        this.eyes = this.generateEyes(this.eX, this.eY);
+        //console.log('this is: ex and ey ' + this.eX + ' ' + this.eY);
+        this.eyes = this.generateEyes(this.eyesX, this.eyesY);
         this.eyeBrows = this.generateEyeBrows(this.eX, this.eY);
         this.mouthh = this.generateMouth(this.mV);
         this.arms = this.generateArms(this.aV);
@@ -314,44 +328,56 @@ function AvatarStaticBody() {
         {   bodyPart: {type: 'static', element: 'face'},
             startx:17,
             endx: 20,
-            starty: 9,
-            endy: 12,
+            starty: 10,
+            endy: 13,
             color: this.colors.robot_elements},
         {   bodyPart: {type: 'static', element: 'face'},
             startx:8,
             endx: 11,
-            starty: 9,
-            endy: 12,
+            starty: 10,
+            endy: 13,
             color: this.colors.robot_elements},
         {   bodyPart: {type: 'static', element: 'face'},
             startx:7,
             endx: 21,
-            starty: 4,
-            endy: 20,
+            starty: 5,
+            endy: 21,
             color: this.colors.skin},
         {   bodyPart: {type: 'static', element: 'face'},
             startx:22,
             endx: 22,
-            starty: 10,
-            endy: 13,
+            starty: 11,
+            endy: 14,
             color: this.colors.skin},
         {   bodyPart: {type: 'static', element: 'face'},
             startx:6,
             endx: 6,
-            starty: 10,
-            endy: 13,
+            starty: 11,
+            endy: 14,
             color: this.colors.skin},
         {   bodyPart: {type: 'static', element: 'neck'},
             startx:12,
             endx: 16,
-            starty: 21,
-            endy: 23,
+            starty: 22,
+            endy: 24,
+            color: this.colors.skin},
+        {   bodyPart: {type: 'static', element: 'neck'},
+            startx:13,
+            endx: 15,
+            starty: 25,
+            endy: 25,
+            color: this.colors.skin},
+        {   bodyPart: {type: 'static', element: 'neck'},
+            startx:14,
+            endx: 14,
+            starty: 26,
+            endy: 26,
             color: this.colors.skin},
         {   bodyPart: {type: 'static', element: 'shirt'},
             startx:11,
             endx: 17,
-            starty: 22,
-            endy: 39,
+            starty: 23,
+            endy: 38,
             color: this.colors.top_part},
         {   bodyPart: {type: 'static', element: 'shirt'},
             startx:9,
@@ -362,13 +388,13 @@ function AvatarStaticBody() {
         {   bodyPart: {type: 'static', element: 'legs'},
             startx:12,
             endx: 13,
-            starty: 40,
+            starty: 39,
             endy: 46,
             color: this.colors.pants},
         {   bodyPart: {type: 'static', element: 'legs'},
             startx:15,
             endx: 16,
-            starty: 40,
+            starty: 39,
             endy: 46,
             color: this.colors.pants},
         {   bodyPart: {type: 'static', element: 'shoos'},
@@ -386,58 +412,70 @@ function AvatarStaticBody() {
         {   bodyPart: {type: 'static', element: 'hair'},
             startx:5,
             endx: 23,
-            starty: 1,
-            endy: 13,
+            starty: 2,
+            endy: 14,
             color: this.colors.hair},
         {   bodyPart: {type: 'static', element: 'hair'},
             startx:4,
             endx: 24,
-            starty: 14,
-            endy: 16,
+            starty: 15,
+            endy: 17,
             color: this.colors.hair},
         {   bodyPart: {type: 'static', element: 'hair'},
             startx:6,
             endx: 22,
-            starty: 17,
-            endy: 17,
+            starty: 18,
+            endy: 18,
             color: this.colors.hair}
     ];
     this.male = [
         {   bodyPart: {type: 'static', element: 'face'},
             startx:17,
             endx: 20,
-            starty: 9,
-            endy: 12,
+            starty: 10,
+            endy: 13,
             color: this.colors.robot_elements},
         {   bodyPart: {type: 'static', element: 'face'},
             startx:8,
             endx: 11,
-            starty: 9,
-            endy: 12,
+            starty: 10,
+            endy: 13,
             color: this.colors.robot_elements},
         {   bodyPart: {type: 'static', element: 'face'},
             startx:7,
             endx: 21,
-            starty: 4,
-            endy: 20,
+            starty: 5,
+            endy: 21,
             color: this.colors.skin},
         {   bodyPart: {type: 'static', element: 'face'},
             startx:22,
             endx: 22,
-            starty: 10,
-            endy: 13,
+            starty: 11,
+            endy: 14,
             color: this.colors.skin},
         {   bodyPart: {type: 'static', element: 'face'},
             startx:6,
             endx: 6,
-            starty: 10,
-            endy: 13,
+            starty: 11,
+            endy: 14,
             color: this.colors.skin},
         {   bodyPart: {type: 'static', element: 'neck'},
             startx:12,
             endx: 16,
-            starty: 21,
+            starty: 22,
             endy: 22,
+            color: this.colors.skin},
+        {   bodyPart: {type: 'static', element: 'neck'},
+            startx:13,
+            endx: 15,
+            starty: 23,
+            endy: 23,
+            color: this.colors.skin},
+        {   bodyPart: {type: 'static', element: 'neck'},
+            startx:14,
+            endx: 14,
+            starty: 24,
+            endy: 24,
             color: this.colors.skin},
         {   bodyPart: {type: 'static', element: 'shirt'},
             startx:11,
@@ -490,8 +528,8 @@ function AvatarStaticBody() {
         {   bodyPart: {type: 'static', element: 'hair'},
             startx:6,
             endx: 22,
-            starty: 2,
-            endy: 9,
+            starty: 3,
+            endy: 10,
             color: this.colors.hair}
 
     ];
@@ -530,7 +568,7 @@ function Grid() {
                 }
             }
         });
-        console.log(ids);
+        //console.log(ids);
         return ids;
     }
 
@@ -584,6 +622,7 @@ function Grid() {
             .append("svg")
             .attr("width", obj.svgWidth)
             .attr("height",obj.svgHeight)
+            .style("fill", '#fff')
             .selectAll(".roww")
             .data(data)
             .enter().append("g")
@@ -603,6 +642,5 @@ function Grid() {
             .duration(500)
             .style("fill", function (d) { return d.color;  });
     }
-
 }
 

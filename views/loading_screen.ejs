@@ -1,30 +1,23 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css'/>
-    <link rel='stylesheet' href='/stylesheets/style.css'/>
-    <script src="/javascripts/jquery/jquery-3.2.1.min.js"></script>
-    <script src="/bootstrap-4.0.0/js/bootstrap.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/javascripts/getCookie.js"></script>
+<% include layout/head.ejs%>
+<link rel='stylesheet' href='/stylesheets/loader.css'/>
+<script src="/socket.io/socket.io.js"></script>
+<script  type='text/javascript' src="/javascripts/loadingScreenPageLogic.js"></script>
+
 </head>
 <body>
-<h1><%= title %></h1>
-<p>Fetching data</p>
-<img src="/images/giphy.webp">
-</body>
-<script>
-    var socket = io();
-    var cookie = getCookie('avatarID');
-    socket.on('redirect', function (data) {
-        console.log(data)
-
-        if(cookie === data.spotifyID){
-            window.location.assign('/avatar')
-        }
-
-    });
-    console.log(cookie);
-</script>
-</html>
+<div class="container">
+    <div class="row justify-content-center">
+        <h1><%= title %></h1> <div class="w-100 d-block m-1 p-1"></div>
+        <p>Fetching data</p>
+    </div>
+    <div class="row justify-content-center">
+        <div id='loader' class="loader"></div>
+        <div class="w-100 d-block m-1 p-1"></div>
+        <div class="tooLong">Hmmm, this seems to be taking a lot of time. Press here to start over the process:</div>
+        <div class="w-100 d-block m-1 p-1"></div>
+        <button class="btn btn-info col-9 col-sm-7 col-lg-5 mx-auto tooLong" onclick="reset()">Reset</button>
+    </div>
+    <div class="w-100 d-block p-5 m-sm-5"></div>
+    <div class="w-100 d-block p-4 m-4"></div>
+</div>
+<% include layout/footer.ejs%>

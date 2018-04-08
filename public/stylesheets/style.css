@@ -3,11 +3,18 @@ a {
 }
 html,body {padding:0;margin:0;}
 
-.custom-control-label::before {
-    background-color: darkorange;
+.tooLong {
+    display: none !important;
 }
 
-input:checked {
-    height: 50px;
-    width: 50px;
+.likertHide {
+    display: none !important;
+}
+
+.aboutAvatar {
+    display: none !important;
+}
+
+.aboutPrivacy {
+    display: none !important;
 }

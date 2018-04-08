@@ -1,29 +1,33 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <script src="/javascripts/jquery/jquery-3.2.1.min.js"></script>
-    <script src="/bootstrap-4.0.0/js/bootstrap.min.js"></script>
-    <script src="/javascripts/getCookie.js"></script>
+<%include layout/head.ejs%>
+<script>
+    let cookie = getCookie('avatarID');
+    console.log(cookie);
+    if(cookie){
+        window.location.assign('/spotify/userUpdate/' + cookie)
+    }
+</script>
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <p id="demo"></p>
+  <div class="container">
+    <div class="row align-items-center">
+        <div class="m-1 p-1 w-100"></div>
+        <div class="col-9 col-sm-7 col-lg-5 bg-warning text-white mx-auto d-block">
+            <p class="text-justify p-sm-1">
+                <small><strong>NOTE!</strong> By logging in to musicAvatar you are providing permission to the app musicavatar.herokuapp.com to place and use cookies in your browser.</small>
+            </p>
+        </div>
+       <div class="w-100 d-block p-4 m-4"></div>
+      <div class="col-10 col-sm-7 col-lg-5 align-items-center m-auto" style="text-align:center;">
+        <h2><%= title %></h2>
+        <p>Login with your Spotify account to proceed:</p>
+      </div>
+      <div class="w-100 d-block p-1 m-1"></div>
+      <div class="col align-items-center m-auto" style="text-align:center;">
+          <a class="btn btn-info col-9 col-sm-7 col-lg-5 mx-auto" href="/spotify/spotifylogin" >Login with Spotify</a>
 
+      </div>
+        <div class="w-100 d-block p-5 m-md-5"></div><div class="w-100 d-block p-2 m-2"></div>
 
-
-
-    <a href="/spotify/spotifylogin" >GoGoGo</a>
-
-   </body>
-  <script>
-      let cookie = getCookie('avatarID');
-      console.log(cookie);
-      if(cookie){
-          window.location.assign('/spotify/userUpdate/' + cookie)
-      }
-
-  </script>
-</html>
+    </div>
+  </div>
+<% include layout/footer.ejs%>

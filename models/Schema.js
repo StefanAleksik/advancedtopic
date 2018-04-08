@@ -28,8 +28,8 @@ module.exports = function(mongoose) {
     let userActivity = new Schema({
         'spotifyID': String,
         'timeStamp': Date,
-        'firstVisit': Boolean,
-        'didFetchData': Boolean
+        'didFetchData': Boolean,
+        'auto': Boolean
     }, {collection: 'UserActivity'});
 
     let userData = new Schema({
@@ -39,15 +39,33 @@ module.exports = function(mongoose) {
                 'played_at': String,
                 'duration_ms': Number,
                 'artist':Array,
-                'energy': Number,
-                'musicFeatures': {type: Schema.Types.ObjectId, ref: 'MusicFeatures'}
+                'danceability': Number
             }]
     }, {collection: 'UserData'});
 
     let songs = new Schema({
         'spotifySongID': String,
-        'energy': Number
+        'danceability': Number
     },{collection:'MusicFeatures'});
+
+    let userDownloadImg = new Schema({
+        'spotifyID': String,
+        'timeStamp': Date
+    }, {collection: 'UserDownloadImg'});
+
+    let userShownAvatar = new Schema({
+        'spotifyID': String,
+        'timeStamp': Date,
+        'obj': {}
+    }, {collection: 'UserShownAvatar'});
+
+    let userChangeAvatar = new Schema({
+        'spotifyID': String,
+        'changedTo': String,
+        'timeStamp': Date
+    }, {collection: 'UserChangeAvatar'});
+
+
 
     /*let calendar = new Schema({
         'spotifyID': String,
@@ -57,6 +75,9 @@ module.exports = function(mongoose) {
     return { User : mongoose.model('User', user),
             MusicFeatures: mongoose.model('MusicFeatures', songs),
             //Calendar: mongoose.model('Calendar', calendar),
+            UserDownloadImg: mongoose.model('UserDownloadImg', userDownloadImg),
+            UserChangeAvatar: mongoose.model('UserChangeAvatar', userChangeAvatar),
+            UserShownAvatar: mongoose.model('UserShownAvatar', userShownAvatar),
             UserData: mongoose.model('UserData', userData),
             UserActivity: mongoose.model('UserActivity', userActivity),
             UserOpinion: mongoose.model('UserOpinion', userOpinion)};

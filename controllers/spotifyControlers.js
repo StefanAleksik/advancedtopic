@@ -7,6 +7,7 @@ let spotifyApi = spotify.spotifyApi;
 let mongoose = require('../models/db');
 let Schema = require('../models/Schema')(mongoose);
 let _ = require('underscore');
+let async = require('async');
 
 
 // ROUTE CONTROLLERS
@@ -21,41 +22,72 @@ module.exports.spotifyCallback = function (req, res) {
         spotifyApi.setRefreshToken(data.body.refresh_token);
         spotifyApi.refreshAccessToken();
         return spotifyApi.getMe()
+    }, function (err) {
+        if (err){
+            res.redirect('/loading');
+        }
     }).then(function (data) {
+        //console.log(data.body)
         res.cookie('avatarID', data.body.id, { maxAge: 345600000});
+        res.cookie('showLikert', true, { maxAge: 345600000});
         res.cookie('avatarTimeStamp', Date.now(), { maxAge: 345600000});
         res.redirect('/loading');
         return initiateUser(data)
     }).then(function (obj) {
         return getRecentSongs(obj)
     }).then(function (data) {
+            return updateAudioFeature(data)
+    }).then(function (data) {
         return mergeWithAudioFeatures(data)
     }).then(function (obj) {
-        return saveToUserData(obj)
+        return saveToUserData(obj, false)
     }).then(function (data) {
         // EMIT THAT USER IS UPDATED/INITIATED NEW DATA ACQUIRED
         setTimeout(function () {
             global._io.emit('redirect', {spotifyID: data.spotifyID});
             console.log('User updated through a callback: ' + data.spotifyID);
-        }, 3000);
+        }, 2000);
     });
 };
 module.exports.userUpdate = async function (req, res) {
     let user = await req.params.spotifyID;
+    res.cookie('showLikert', true, { maxAge: 345600000});
     console.log(user);
     res.cookie('avatarTimeStamp', Date.now(), { maxAge: 345600000});
     res.cookie('avatarID', user, { maxAge: 345600000});
     await res.redirect('/loading');
-    updateUser(user).then(function () {
+    updateUser(user, false).then(function () {
         setTimeout(function () {
             global._io.emit('redirect', {spotifyID: user})
-        }, 3000);
+        }, 2000);
     });
 };
 module.exports.spotifyUpdateInterval = function (req, res) {
     updateUsersInterval();
     res.send('Interval started at: ' + Date.now())
 };
+
+//Loggers
+module.exports.userShownAvatar = function (req, res) {
+    let id = req.params.avatarID;
+    let data = req.body;
+    let timeStamp = Date.now();
+    console.log(data);
+    let doc = new Schema.UserShownAvatar({spotifyID:id, obj: data, timeStamp: timeStamp});
+    doc.save(function (err, postDoc) {
+        if(err) throw err;
+    });
+    res.status(204).send()
+};
+module.exports.userDownloadedAvatar = function (req, res) {
+    let id = req.params.avatarID;
+    let timeStamp = Date.now();
+    let doc = new Schema.UserDownloadImg({spotifyID: id, timeStamp: timeStamp});
+    doc.save(function (err, tempDoc) {
+        if (err) throw err;
+    });
+    res.status(204).send()
+}
 module.exports.updateUserAvatarType = function (req, res) {
     let id = req.cookies.avatarID;
     let avatarType = req.body.gender;
@@ -63,6 +95,10 @@ module.exports.updateUserAvatarType = function (req, res) {
         if (err) throw err;
         user.avatar_type = avatarType;
         user.save(function (err, saVe) {
+            let doc = new Schema.UserChangeAvatar({spotifyID: id, timeStamp: Date.now(), changedTo: avatarType});
+            doc.save(function (err, postDoc) {
+                if(err) throw err;
+            })
             res.status(204).send()
             if (err) throw err;
         })
@@ -85,26 +121,24 @@ module.exports.userOpinion = function (req, res) {
 //Thread controllers
 module.exports.musicFeatures = function (req, res) {
     let pass = req.cookies.loginPass;
-    if(pass === ''){
+    if(pass === 'qwedsa123'){
         Schema.MusicFeatures.find(function(err, threads) {
         res.send(threads);
     });
     } else {
         res.send('Wrong password')
     }
-
-
 };
 module.exports.userThread = function (req, res) {
     let pass = req.cookies.loginPass;
-    if(pass === ''){Schema.User.find(function(err, threads) {
+    if(pass === 'qwedsa123'){Schema.User.find(function(err, threads) {
         res.send(threads);
     });} else {res.send('Wrong password')}
 
 };
 module.exports.dataThread = function (req, res) {
     let pass = req.cookies.loginPass;
-    if(pass === ''){Schema.UserData.find(function(err, threads) {
+    if(pass === 'qwedsa123'){Schema.UserData.find(function(err, threads) {
         res.send(threads);
     });} else {res.send('Wrong password')}
 
@@ -125,20 +159,39 @@ module.exports.avatarSptifyID = async function (req, res) {
 };
 module.exports.userOpinions = function (req, res) {
     let pass = req.cookies.loginPass;
-    if(pass === ''){Schema.UserOpinion.find(function (err, thread) {
+    if(pass === 'qwedsa123'){Schema.UserOpinion.find(function (err, thread) {
         res.send(thread)
     })} else {res.send('Wrong password')}
 
 };
 module.exports.userVisits = function (req, res) {
     let pass = req.cookies.loginPass;
-    if(pass === ''){Schema.UserActivity.find(function (err, thread) {
+    if(pass === 'qwedsa123'){Schema.UserActivity.find(function (err, thread) {
+        res.send(thread)
+    })} else {res.send('Wrong password')}
+
+};
+module.exports.userDownloads = function (req, res) {
+    let pass = req.cookies.loginPass;
+    if(pass === 'qwedsa123'){Schema.UserDownloadImg.find(function (err, thread) {
+        res.send(thread)
+    })} else {res.send('Wrong password')}
+
+};
+module.exports.userShownStuff = function (req, res) {
+    let pass = req.cookies.loginPass;
+    if(pass === 'qwedsa123'){Schema.UserShownAvatar.find(function (err, thread) {
+        res.send(thread)
+    })} else {res.send('Wrong password')}
+};
+module.exports.userAvatarType = function (req, res) {
+    let pass = req.cookies.loginPass;
+    if(pass === 'qwedsa123'){Schema.UserChangeAvatar.find(function (err, thread) {
         res.send(thread)
     })} else {res.send('Wrong password')}
 };
 
-
-// GET DATA FOR AVATAR THREAD
+// GET DATA FOR AVATAR API
 function getLastTwoHours(userID) {
     return new Promise(function (resolve, reject) {
         Schema.User.findOne({spotifyID: userID}).populate('recentlyPlayed').exec(function (err, user) {
@@ -175,21 +228,21 @@ function calculateAvatar(data) {
         }).reduce(function (acul, curentItem) {
             return acul+curentItem
         });
-        let energyRaw = data.data.map(function (el) {
-            return el.energy
+        let danceabilityRaw = data.data.map(function (el) {
+            return el.danceability
         }).reduce(function (acul, item) {
             return acul + item
         });
 
         let songUniquePercentege = Math.floor(tempSongUnique.length/tempSong.length*100);
         let artistUniquePercentege = Math.floor(tempArtistUnique.length/tempArtist.length*100);
-        let energy = Math.floor(energyRaw/data.data.length*100);
+        let danceability = Math.floor(danceabilityRaw/data.data.length*100);
         let musicAmauntInTwoHours = Math.floor(amountMusic/7200000*100);
 
         let obj = {
             song: songUniquePercentege,
             artist: artistUniquePercentege,
-            energy: energy,
+            danceability: danceability,
             timePlayed: musicAmauntInTwoHours,
             showAvatar: true,
             avatar: data.avatar};
@@ -198,9 +251,7 @@ function calculateAvatar(data) {
     })
 }
 
-
-
-//UPDATE SEGMENT ENCAPSULATION OF SAVE IT SEGMENT
+//UPDATE/LOG IT SEGMENT
 function getUser(data) {
     return new Promise(function (resolve, reject) {
         Schema.User.findOne({spotifyID: data}, function (err, user) {
@@ -219,7 +270,7 @@ function getAllUsers() {
         })
     })
 }
-async function updateUser(string) {
+async function updateUser(string, auto) {
     let user = await getUser(string);
     if(Date.now() - Date.parse(user.updateTimeStamp) > 300000){
         await spotifyApi.setRefreshToken(user.spotifyRefreshToken);
@@ -230,37 +281,39 @@ async function updateUser(string) {
         }).then(function (obj) {
             return getRecentSongs(obj)
         }).then(function (data) {
+            return updateAudioFeature(data)
+        }).then(function (data) {
             return mergeWithAudioFeatures(data)
         }).then(function (obj) {
-            return saveToUserData(obj)
+            return saveToUserData(obj, auto)
         }).then(function (data) {
             console.log('update complite from a cookie for user: ' + data.spotifyID);
         });
     } else {
         //global._io.emit('redirect', {spotifyID: string})
-        logger(user, false, false);
+        loggerUser(user, false, auto);
         console.log('Wait for 5 min lets not spam the company')
     }
-
 }
 async function updateUsersInterval() {
     let users = await getAllUsers();
     console.log('UpdateUsersInterval');
     for(let user of users){
-        await updateUser(user.spotifyID);
+        await updateUser(user.spotifyID, true);
     }
 setTimeout(updateUsersInterval, 14400000)
 }
-async function logger(obj, bool, bool2) {
+async function loggerUser(obj, bool2, automatic) {
     let timeStamp = Date.now();
-    let log = new Schema.UserActivity({spotifyID: obj.spotifyID, timeStamp: timeStamp, firstVisit: bool, 'didFetchData': bool2});
+    let log = new Schema.UserActivity({spotifyID: obj.spotifyID, timeStamp: timeStamp, 'didFetchData': bool2, 'auto': automatic});
     log.save(function (err, l) {
         if (err) throw err;
     })
 }
+
 //GET DATA AND SAVE IT SEGMENT
 //4. Save the recent songs to the UserData object + Log every save as a User activity
-async function saveToUserData(obj) {
+async function saveToUserData(obj, auto) {
     await Schema.User.findOne({spotifyID: obj.obj.spotifyID}, function (err, user) {
        if (err) throw err;
        user.updateTimeStamp = Date.now();
@@ -269,84 +322,151 @@ async function saveToUserData(obj) {
            console.log('timeStampSaved')
        })
     });
-    logger(obj.obj, obj.newUser, obj.temp.length > 0);
+    loggerUser(obj.obj, obj.temp.length > 0, auto);
     return new Promise(function (resolve, reject) {
-        if(obj.newUser){
-            let newUserData = new Schema.UserData({'spotifyID': obj.obj.spotifyID, 'recentlyPlayed': obj.temp});
-            newUserData.save(function (err) {
-                if(err) reject(err);
-            }).catch(function (e) {
-                throw e;
-            });
-            Schema.User.update({'spotifyID': newUserData.spotifyID}, {$set: {recentlyPlayed: newUserData._id}}, function (err, update) {
-                if (err) reject(err);
-                console.log('here here: ' + update);
+        Schema.UserData.findOne({'spotifyID': obj.obj.spotifyID}, function (err, userData) {
+            if (err) reject(err);
+            if(userData === null){
+                let newUserData = new Schema.UserData({'spotifyID': obj.obj.spotifyID, 'recentlyPlayed': obj.temp});
+                newUserData.save(function (err) {
+                    if(err) reject(err);
+                }).catch(function (e) {
+                    throw e;
+                });
+                Schema.User.update({'spotifyID': newUserData.spotifyID}, {$set: {recentlyPlayed: newUserData._id}}, function (err, update) {
+                    if (err) reject(err);
+                    console.log('here here: ' + update);
 
-                resolve({spotifyID: newUserData.spotifyID});
-            })
-        }
-        else if (obj.temp.length > 0){
-            //console.log();
-            Schema.UserData.update({'spotifyID': obj.obj.spotifyID}, {$push:{recentlyPlayed: {$each: obj.temp}}}, function (err, update) {
-                if(err) reject(err);
+                    resolve({spotifyID: newUserData.spotifyID});
+                })
+            }
+            else if (obj.temp.length > 0){
+                Schema.UserData.update({'spotifyID': obj.obj.spotifyID}, {$push:{recentlyPlayed: {$each: obj.temp}}}, function (err, update) {
+                    if(err) reject(err);
 
+                    resolve({spotifyID: obj.obj.spotifyID})
+                });
+            }
+            else {
+                console.log('nothig to add');
+                //global._io.emit('redirect', {spotifyID: obj.obj.spotifyID});
                 resolve({spotifyID: obj.obj.spotifyID})
-            });
-
-        }
-        else {
-            console.log('nothig to add');
-            //global._io.emit('redirect', {spotifyID: obj.obj.spotifyID});
-            resolve({spotifyID: obj.obj.spotifyID})
-        }
+            }
+        })
     })
 }
+
 //3. Merge the recent songs with the AudioFetures
 async function mergeWithAudioFeatures(data) {
     let temp = [];
-    //console.log(data.temp);
-    if(data.temp.length > 0){
-        for(let song of data.temp){
-            let songFeatures = await getAudioFeature(song);
-            let obj = {
-                played_at: song.played_at,
-                spotifySongID: song.spotifySongID,
-                duration_ms: song.duration_ms,
-                artist: song.artist,
-                energy: songFeatures.energy,
-                musicFeatures: songFeatures._id
-            };
-            temp.push(obj)
+    //console.log(data);
+    if(data.obj.temp.length > 0){
+       for(let song of data.obj.temp){
+            let songFeatures;
+            let obj;
+            if(data.ids.includes(song.spotifySongID) && data.ids.length > 0){
+                console.log('we need to find it in the new ones');
+                songFeatures = data.data.find(function (feature) {
+                    return feature.id === song.spotifySongID;
+                });
+                obj = {
+                    played_at: song.played_at,
+                    spotifySongID: song.spotifySongID,
+                    duration_ms: song.duration_ms,
+                    artist: song.artist,
+                    danceability: songFeatures.danceability
+                };
+                temp.push(obj)
+            } else {
+                console.log('we need to find it in the old ones')
+                songFeatures = await getAudioFeature(song.spotifySongID);
+                obj = {
+                    played_at: song.played_at,
+                    spotifySongID: song.spotifySongID,
+                    duration_ms: song.duration_ms,
+                    artist: song.artist,
+                    danceability: songFeatures.danceability
+                };
+                temp.push(obj)
+            }
         }
         console.log('merge working');
-        return({temp: temp, obj:data.obj, newUser: data.newUser})
+        return({temp: temp, obj:data.obj.obj})
     }else {
-        return({temp: temp, obj:data.obj, newUser: data.newUser})
+        return({temp: temp, obj:data.obj.obj})
     }
 }
-//3.b Get the audio features if they don't exist add them to the db
-function getAudioFeature(data) {
+//3.b Get the audio features from the db
+function getAudioFeature(id) {
    return new Promise(function (resolve, reject) {
-       Schema.MusicFeatures.findOne({spotifySongID: data.spotifySongID}, function (err, song) {
-           if(song === null){
-               spotifyApi.getAudioFeaturesForTrack(data.spotifySongID).then(function (newSong) {
-                   new Schema.MusicFeatures({spotifySongID:data.spotifySongID, energy: newSong.body.energy}).save(function (err, theSong) {
-                       if(err) reject(err);
-                       console.log('newSong: ' + theSong._id);
-                       resolve({_id: theSong._id, energy: theSong.energy})
-                   })
-               })
-           } else {
-               console.log('oldSong: ' + song._id);
-               resolve({_id: song._id, energy: song.energy})
-           }
+       Schema.MusicFeatures.findOne({spotifySongID: id}, function (err, song) {
+                if(err) resolve(err);
+               resolve({danceability: song.danceability})
        })
    })
 }
+
+//3. Update Audio feature, adds all new songs to MusicFeature collection and returns the new songs
+// for the merge function
+async function updateAudioFeature(obj) {
+    let ids =[];
+    if(obj.temp.length>0){
+        ids = await filterNonExistingSongs(obj.temp);
+        console.log('ids ' + ids);
+    }
+    return new Promise(function (resolve, reject) {
+        if(ids.length>0){
+            spotifyApi.getAudioFeaturesForTracks(ids).then(function (data) {
+                async.each(data.body.audio_features, saveMusicFeatures, function (err) {
+                    if (err) console.log(err);
+                });
+                resolve({obj:obj, data:data.body.audio_features, ids:ids})
+            });
+        } else {
+            resolve({obj:obj, data:[], ids:[]})
+        }
+    })
+}
+//3.a Filter existing records of songs from the new data input
+async function filterNonExistingSongs(array) {
+    let idsSavedSongs = [];
+    let playedSongsIDs = [];
+    for (let ids of array){
+        playedSongsIDs.push(ids.spotifySongID)
+    }
+    let musicFeature = Schema.MusicFeatures.find();
+    musicFeature.select('spotifySongID');
+    let idsOld = await musicFeature.exec(function (err, songs) {
+        if (err) console.log(err);
+        return songs
+    });
+    for (let ids of idsOld){
+        idsSavedSongs.push(ids.spotifySongID)
+    }
+    return new Promise(function (resolve, reject) {
+        let temp = playedSongsIDs.filter(function (id) {
+            let bool = idsSavedSongs.includes(id);
+            return !bool
+        });
+        let unique = temp.filter( onlyUnique );
+        resolve(unique)
+    });
+}
+//3.a.1 Keeps only unique ID's in the array of songs
+function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+}
+//3.b Saves the new records in the DB
+async function saveMusicFeatures(song) {
+    await Schema.MusicFeatures.create({spotifySongID: song.id, danceability: song.danceability}, function (err, theSong) {
+        if (err) resolve(err);
+    })
+}
+
+
 //2. Get the recent songs from Spotify
 async function getRecentSongs(obj) {
-    const newUser = obj.recentlyPlayed === null;
-    const param = await getLastRecordedSong(newUser, obj.spotifyID);
+    const param = await getLastRecordedSong(obj.recentlyPlayed === null, obj.spotifyID);
     return new Promise (function (resolve, reject) {
         spotifyApi.getMyRecentlyPlayedTracks(param).then(function (data) {
             var temp = [];
@@ -354,7 +474,7 @@ async function getRecentSongs(obj) {
                 for(let p1 of data.body.items){
                     var tempList = [];
                     for(let p of p1.track.artists){tempList.push(p.id)}
-                    //console.log('artist: ' + tempList);
+
                     temp.push({
                         played_at: p1.played_at,
                         spotifySongID: p1.track.id,
@@ -365,11 +485,11 @@ async function getRecentSongs(obj) {
 
                 temp = temp.reverse();
                 //console.log('is there somthing: ' + temp);
-                resolve({temp: temp, newUser: newUser, obj: obj});
+                resolve({temp: temp, obj: obj});
             }
                 else {
                 console.log('No New Songs');
-                resolve({temp: temp, newUser: newUser, obj: obj});
+                resolve({temp: temp, obj: obj});
             }
 
         })

@@ -1,0 +1,32 @@
+<div id="userLikerd" class="tooLong likertHide row col-12 col-md-10 col-lg-8 mx-auto justify-content-center">
+    <form onsubmit="hideForm()" class="card  mx-auto" action="/spotify/userOpinion" method="post">
+        <div class="card-header">
+            [Optional] Do you think that the avatar accurately represent your last 2 hours of Spotify music listening?
+        </div>
+        <div class="btn-group row justify-content-center card-block py-1">
+
+            <label class="btn btn-primary col-sm-3 col-12 mx-0 px-0 mb-1 custom-control-label labelSelect" for="customRadio1">
+                <input type="radio" id="customRadio1" name="userLikert" value="1" class="custom-control-input custom-radio" required >Strongly Disagree
+            </label>
+            <label class="btn btn-primary col-sm-2 col-12 mx-0 mb-1 custom-control-label labelSelect" for="customRadio2">
+                <input type="radio" name="userLikert" value="2" class="custom-control-input" id="customRadio2">Disagree
+            </label>
+            <label class="btn btn-primary col-sm-2 col-12 mx-0 mb-1 custom-control-label labelSelect" for="customRadio3">
+                <input type="radio" name="userLikert" value="3" class="custom-control-input" id="customRadio3">Neutral
+            </label>
+            <label class="btn btn-primary col-sm-2 col-12 mx-0 mb-1 custom-control-label labelSelect" for="customRadio4">
+                <input type="radio" name="userLikert" value="4" class="custom-control-input" id="customRadio4">Agree
+            </label>
+            <label class="btn btn-primary col-sm-3 col-12 mx-0 mb-1 custom-control-label labelSelect" for="customRadio5">
+                <input type="radio" name="userLikert" value="5" class="custom-control-input" id="customRadio5">Strongly Agree
+            </label>
+
+            <div class="form-group col-12 mx-0 px-0 mb-1">
+                <textarea class="form-control" rows="2" name="comment" placeholder="[Optional] We would appreciate if you have an additional comment"></textarea>
+            </div>
+
+            <input class="btn btn-info col-12 mx-auto" type="submit" value="Submit">
+        </div>
+    </form>
+
+</div>
