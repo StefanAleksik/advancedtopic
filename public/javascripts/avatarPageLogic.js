@@ -16,8 +16,9 @@ function avatarPageLogic(spotifyID, timeStamp, cb) {
                             avatar.generateAvatar();
                             $('#privacy').removeClass('tooLong');
                             $('#aboutAvatar').removeClass('tooLong');
-                            $('#downloadAvatar').removeClass('tooLong')
-                            $('#switchAvatar').removeClass('tooLong')
+                            $('#downloadAvatar').removeClass('tooLong');
+                            $('#userLikerd').removeClass('tooLong');
+                            $('#switchAvatar').removeClass('tooLong');
                            cb(result)
                         } else {
                             $('#privacy').removeClass('tooLong');
@@ -52,8 +53,8 @@ avatarPageLogic(spotifyID, timeStamp, function (result) {
 function getImg() {
     var spotifyID = getCookie('avatarID');
     let now = new Date();
-    let currentDate =  now.getDate() + '_' + now.getMonth() + '_' + now.getFullYear() + '_' + now.getHours() + '-' + now.getMinutes();
-    saveSvgAsPng(document.getElementsByTagName("svg")[0], "avatar_" + currentDate + ".png");
+    let currentDate =  now.getFullYear() + '_' + now.getMonth() + '_' + now.getDate() + '_' + now.getHours() + '-' + now.getMinutes();
+    saveSvgAsPng(document.getElementsByTagName("svg")[0], "musicAvatar_" + currentDate + ".png");
     $.ajax({
         type: "POST",
         url: '/spotify/userDownloadLog/' + spotifyID

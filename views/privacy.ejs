@@ -15,13 +15,61 @@
     })
 
 </script>
-
-<div class="container">
+<div class="container-fluid">
     <%include layout/menu.ejs%>
-    <div class="row justify-content-center">
-    <h1><%= title %></h1>
-        <div class="w-100"></div>
-    <p>Welcome to <%= title %></p>
+    <div class="col-12 col-md-10 col-lg-6 mx-auto row">
+        <h3 class="mx-auto"><%= title %></h3>
+        <span class="m-2 d-block p-1 w-100"></span>
+        <p class="text-justify">
+            The application extracts data from your Spotify account in order to generate the Avatar. It utilizes 3 different endpoints from Spotify:
+        </p>
+        <ul>
+            <li>Get Current User’s Profile [GET /v1/me]
+                <a class="text-muted" href="https://developer.spotify.com/web-api/get-current-users-profile/" target="_blank">[1]</a>
+                <br>
+                <p class="text-muted text-justify small">
+                    From this endpoint we extract your name, email and spotify id. This data is used only once to create a profile for the musicAvatar.
+                </p>
+            </li>
+            <li>Get Current User’s Recently Played Tracks [GET /v1/me/player/recently-played]
+                <a class="text-muted" href="https://developer.spotify.com/web-api/web-api-personalization-endpoints/get-recently-played/" target="_blank">[2]</a>
+                <br>
+                <p class="text-muted text-justify small">
+                    From this endpoint we follow your music history.
+                </p>
+            </li>
+            <li>Get Audio Features for Several Tracks [GET /v1/audio-features]
+                <a class="text-muted" href="https://developer.spotify.com/web-api/get-several-audio-features/" target="_blank">[3]</a>
+                <br>
+                <p class="text-muted text-justify small">
+                    This endpoint compliments recent played music by adding danceability attribute for each song.
+                </p>
+            </li>
+        </ul>
+        <p class="text-justify">
+            We care about your privacy. That’s why the app extracts only the needed information from your Spotify account.
+            Additionally your music history is anonymised by not using the name of the artist and songs that you have been listening to,
+            instead we only use the songs and artists id’s in order to differentiate the data.
+        </p>
+        <p class="text-justify">
+            Due to the way how the Spotify API is designed we need to make automatic calls on daily basis to cover your listening activity in
+            the past period. An additional call is made when you open the app in order to provide the played songs between the last automatic
+            update and the current moment.
+        </p>
+        <p class="text-justify">
+            musicAvatar logs your activity. The log data alongside your Spotify history will be used
+            to evaluate the app for the purposes of the thesis.
+        </p>
+        <p class="text-justify">
+            If you want your data to be destroyed after the
+            end of the app evaluation period (somewhere around end of June) please contact us and let us know.
+        </p>
+        <p class="text-justify">
+            If for whatever reason you would like to quit before the evaluation period ends,
+            you can revoke the access of your data by the app on the following
+            <a href="https://www.spotify.com/se/account/apps/" target="_blank">link</a>(The app is called QuantifiedSelfMusic).
+            Additionally write us to remove the data from our database
+        </p>
     </div>
 </div>
 

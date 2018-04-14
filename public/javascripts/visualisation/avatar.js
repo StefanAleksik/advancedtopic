@@ -309,7 +309,7 @@ function AvatarDynamicBody() {
         this.eY = this.avatarScale(obj.artist, 25, 75);
         this.eyesX = this.avatarEyeScale(obj.song, 25, 50, 75);
         this.eyesY = this.avatarEyeScale(obj.artist, 25, 50, 75);
-        this.aV = this.avatarScale(obj.danceability, 50, 78);
+        this.aV = this.avatarScale(obj.danceability, 40, 70);
         this.mV = this.avatarScale(obj.timePlayed, 34, 67);
         //console.log('this is: ex and ey ' + this.eX + ' ' + this.eY);
         this.eyes = this.generateEyes(this.eyesX, this.eyesY);

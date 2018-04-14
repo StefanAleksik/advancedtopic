@@ -9,6 +9,7 @@
         <h1><%= title %></h1>
         <div class="w-100"></div>
         <p>Choose your avatar representation:</p>
+
     </div>
     <div class="row">
         <form class="m-auto d-block" onsubmit="redirectToAvatar()" action="/spotify/updateUserAvatarType" method="post">
@@ -22,7 +23,11 @@
     </label>
     <div class="d-block w-100 m-1 p-1"></div>
     <input class="btn btn-info col-9 col-sm-7 col-lg-5 mx-auto d-block" type="submit" value="Submit">
+
+
 </form>
+        <div class="w-100 d-block p-2"></div>
+        <p class="small text-muted mx-auto">[NOTE] This representation is purely cosmetic and does not affect the data display</p>
     </div>
 </div>
 <div class="w-100 d-block p-5 m-md-5"></div><div class="w-100 d-block p-2 m-2"></div>

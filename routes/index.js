@@ -22,7 +22,7 @@ router.get('/instruction', function (req, res) {
 });
 
 router.get('/privacy', function (req, res) {
-    res.render('privacy', {title: 'musicAvatar'})
+    res.render('privacy', {title: 'musicAvatar Privacy'})
 });
 
 router.get('/login/:password', function (req, res) {

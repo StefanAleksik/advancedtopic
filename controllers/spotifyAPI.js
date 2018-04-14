@@ -17,11 +17,11 @@ function SpotifyAPI() {
     };
 
     //Spotify Credentials
-    this.client_id = '';
-    this.client_secret = '';
+    this.client_id = '7f47af174f9a4436baef40df1f2b66b8';
+    this.client_secret = '05e4f2e6822649d7b932b099ffeda328';
     this.redirect_uri = 'http://localhost:3000/spotify/spotifycallback';
     this.stateKey = 'spotify_auth_state';
-    this.scope = 'user-read-private user-read-email user-read-recently-played';
+    this.scope = 'user-read-private user-read-email user-library-read user-follow-read user-top-read user-read-recently-played';
     this.state = this.generateRandomString(16);
     this.response_type = 'code';
     this.redirectURI = 'https://accounts.spotify.com/authorize?' +

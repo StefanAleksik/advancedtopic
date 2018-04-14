@@ -93,15 +93,20 @@ module.exports.updateUserAvatarType = function (req, res) {
     let avatarType = req.body.gender;
     Schema.User.findOne({spotifyID: id}, function (err, user) {
         if (err) throw err;
-        user.avatar_type = avatarType;
-        user.save(function (err, saVe) {
-            let doc = new Schema.UserChangeAvatar({spotifyID: id, timeStamp: Date.now(), changedTo: avatarType});
-            doc.save(function (err, postDoc) {
-                if(err) throw err;
+        if(user === null){
+            res.redirect('/loading')
+        } else {
+            user.avatar_type = avatarType;
+            user.save(function (err, saVe) {
+                let doc = new Schema.UserChangeAvatar({spotifyID: id, timeStamp: Date.now(), changedTo: avatarType});
+                doc.save(function (err, postDoc) {
+                    if(err) throw err;
+                });
+                res.status(204).send();
+                if (err) throw err;
             })
-            res.status(204).send()
-            if (err) throw err;
-        })
+        }
+
     })
 };
 module.exports.userOpinion = function (req, res) {

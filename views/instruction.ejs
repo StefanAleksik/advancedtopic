@@ -22,52 +22,64 @@
     <%include layout/menu.ejs%>
     <div class="row col-12 col-md-10 col-lg-6 mx-auto">
         <h3 class="mx-auto"><%= title %></h3>
+        <span class="m-2 d-block p-1 w-100"></span>
         <p class="lead small text-muted text-justify">
-            <strong>musicAvatar</strong> is a web app that generates an avatar based on users recent played songs on Spotify. It is a part of a
-            research project that aims to map out aspects of human behavior from personal data into an avatar. In a broader context the project
-            aims to contribute to the Quantified self-movement by exploring different possibilities of visualizing personal data using Chernoff
-            like faces avatars.
+            <strong>musicAvatar</strong> is a web app that generates an avatar based on your recent played songs on Spotify.
+            It is a part of a research project that aims to map out aspects of human behavior from personal
+            data on an avatar. The project/thesis main aim is to contribute to the Quantified Self movement,
+            by exploring different possibilities of visualizing data using Chernoff* faces inspired approach.
+            <a href="https://github.com/StefanAleksik/advancedtopic" target="_blank">Git repo of the project</a>
         </p>
-        <h6 class="mx-auto">How to use the Avatar:</h6>
-        <p class="text-justify"> The Avatar displays your Spotify listening in the last two hours.
-            Based on the retrieved data it maps out different aspects of your recent music in the
-            avatar’s: <mark> eyes, mouth and arms.  </mark> </p>
+        <h6 class="mx-auto">How to interpret musicAvatar:</h6>
+        <p class="text-justify">
+            musicAvatar displays your Spotify listening activity for the last two hours.
+            Based on the retrieved data it maps out different aspects of your recent music in the avatar’s
+            <mark> eyes, mouth and arms.</mark> </p>
     </div>
     <div class="row justify-content-center">
 
         <div class="w-100 m-1 p-1"></div>
         <img class="img-fluid" src="/images/instruction.png">
     </div>
+    <span class="m-2 d-block p-1 w-100"></span>
     <div class="row col-12 col-md-10 col-lg-6 mx-auto">
         <p class="text-justify">
-            <span class="display-4">А.</span> The position of the eyes pupils represents the diversity of music that you have listen to by measuring the variety of artists and songs.
-            The variation of songs moves the eye pupil horizontally. The more the eye pupil is leaning towards right, means that mostly unique songs
-            have been played. Reoccurring songs will move the eyes pupils towards left. The variety of artists moves the eyes pupils vertically.
-            Having a big diversity of artists moves the eye pupils towards up and repeating artist will move the eye pupils downwards.
+            <span class="h4">А.</span>
+            The position of the eye pupils represents the “diversity” of music that you have
+            listen to by measuring the variety of artists and songs.
+            <br><br><mark>The variation of songs moves the pupils horizontally;
+            more to the right means that mostly unique songs have been played.
+                <br><br> The variety of artist moves the pupils vertically; upwards indicates big diversity of artists.</mark>
         </p>
         <p class="text-justify">
             For example the avatar shown above has listened to mostly repeating songs from the same artists in the last two hours.
         </p>
         <p class="text-justify">
-            <span class="display-4">B.</span> The size of the mouth represents the amount of music you have been listening in the past two hours.
-            Small mouth means that the amount of music measured in time is low, for the given period.
-            Bigger size of the mouth means more time has been spent listening to music.
+            <span class="h4">B.</span>
+            The size of the mouth represents the amount of music you have been listening in the past two hours.
+
+            <br><br><mark>A small mouth indicates that the amount of music was low for the given period.
+                A more open mouth means more time has been spent listening to music.</mark>
         </p>
         <p class="text-justify">
             For example the avatar shown above has listened to a very low amount of music in the past two hours.
         </p>
         <p class="text-justify">
-            <span class="display-4">C.</span> – The position of the arms represents the danceability of the music which is being analyzed.
-            When the arms are leaning downwards it means that the danceability is low.
-            When the arms are pointing upwards it means that you have listen to music with high danceability.
+            <span class="h4">C.</span>
+            The position of the arms represents the danceability** of the music which is being analyzed.
+            <br><br><mark>A low danceability is indicated by arms next to the avatar body; raised arms indicate higher danceability.</mark>
         </p>
         <p class="text-justify">
             For example the avatar shown above has listened to music with low danceability.
         </p>
         <p class="text-justify small text-muted">
-            *According to Spotify, danceability describes how suitable a track is for dancing based on a
+            *Wikipedia Chernoff face
+            <a href="https://en.wikipedia.org/wiki/Chernoff_face" target="_blank">[1]</a>
+        </p>
+        <p class="text-justify small text-muted">
+            **According to Spotify, danceability describes how suitable a track is for dancing based on a
             combination of musical elements including tempo, rhythm stability,
-            beat strength, and overall regularity. <a href="https://developer.spotify.com/web-api/get-audio-features/" target="_blank">[1]</a>
+            beat strength, and overall regularity. <a href="https://developer.spotify.com/web-api/get-audio-features/" target="_blank">[2]</a>
         </p>
     </div>
 </div>
