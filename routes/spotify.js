@@ -12,6 +12,7 @@ router.get('/spotifylogin', SpotifyControllers.spotifyLogin);
 router.get('/spotifycallback', SpotifyControllers.spotifyCallback);
 router.get('/userUpdateIntervalStart/3162162', SpotifyControllers.spotifyUpdateInterval);
 router.get('/avatar/:spotifyID', SpotifyControllers.avatarSptifyID);
+router.get('/dayavatar/:spotifyID', SpotifyControllers.dayAvatarSpotifyID);
 
 // Spotify user update and log
 
@@ -19,7 +20,9 @@ router.get('/userUpdate/:spotifyID', SpotifyControllers.userUpdate);
 router.post('/updateUserAvatarType', SpotifyControllers.updateUserAvatarType);
 router.post('/userDownloadLog/:avatarID', SpotifyControllers.userDownloadedAvatar);
 router.post('/userShownAvatar/:avatarID', SpotifyControllers.userShownAvatar);
+router.post('/userShownMyDay/:avatarID', SpotifyControllers.userShownMyDay);
 router.post('/userOpinion', SpotifyControllers.userOpinion);
+router.post('/userOpinionMyDay', SpotifyControllers.userComment);
 
 //User DB for showing all saves for all users
 router.get('/thread', SpotifyControllers.userThread);
@@ -30,6 +33,8 @@ router.get('/thread6', SpotifyControllers.userVisits);
 router.get('/thread7', SpotifyControllers.userDownloads);
 router.get('/thread8', SpotifyControllers.userShownStuff);
 router.get('/thread9', SpotifyControllers.userAvatarType);
+router.get('/thread10', SpotifyControllers.userShownDayStuff);
+router.get('/thread11', SpotifyControllers.userComments);
 //router.get('/thread4', SpotifyControllers.calendar);
 
 module.exports = router;

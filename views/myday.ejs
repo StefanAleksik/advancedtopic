@@ -1,0 +1,41 @@
+<% include layout/head.ejs%>
+<script type="text/javascript" src="/javascripts/mydayPageLogic.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <!--MENU-->
+    <% include layout/menu.ejs%>
+    <!--The AVATAR-->
+    <div class="row justify-content-center">
+
+        <div class="w-100 d-block p-1 m-1"></div>
+        <h3><%= title %></h3>
+
+        <div class="w-100 d-block p-1 m-1"></div>
+        <!--The AVATAR GRID-->
+        <div id="gridContainer" class="col-8 col-sm-4 col-lg-3 col-xl-2">
+        </div>
+
+        <div class="w-100 d-block p-1 m-1"></div>
+        <!-- <button class="tooLong btn btn-info col-6 col-sm-5 col-md-3 col-lg-2 col-xl-2 m-2" onclick="getImg()">Download Avatar</button>-->
+    </div>
+    <!--Timeline-->
+    <div id="userLikerd" class="row col-12 col-md-10 col-lg-8 mx-auto justify-content-center">
+        <span id='grid0ti' class="dot bg-info"></span>
+        <span id='grid1ti' class="dot"></span>
+        <span id='grid2ti' class="dot"></span>
+        <span id='grid3ti' class="dot"></span>
+        <span id='grid4ti' class="dot"></span>
+        <span id='grid5ti' class="dot"></span>
+        <span id='grid6ti' class="dot"></span>
+        <span id='grid7ti' class="dot"></span>
+        <span id='grid8ti' class="dot"></span>
+        <span id='grid9ti' class="dot"></span>
+        <span id='grid10ti' class="dot"></span>
+        <span id='grid11ti' class="dot"></span>
+    </div>
+    <!--Likert scale-->
+
+    <% include layout/comment.ejs%>
+</div>
+<% include layout/footer.ejs%>

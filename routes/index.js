@@ -9,6 +9,10 @@ router.get('/avatar', function (req, res) {
     res.render('avatar', {title: 'musicAvatar'})
 });
 
+router.get('/avatar/myday', function (req, res) {
+    res.render('myday', {title: 'musicAvatar - myDay'})
+})
+
 router.get('/loading', function (req, res) {
     res.render('loading_screen', {title: 'musicAvatar'})
 });

@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 var bluebird = require('bluebird');
 
 mongoose.Promise = bluebird;
-mongoose.connect('mongodb://localhost/user_spotify_history', {
+mongoose.connect('', {
     useMongoClient: true
 });
 

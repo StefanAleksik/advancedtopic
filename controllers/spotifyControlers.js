@@ -79,6 +79,17 @@ module.exports.userShownAvatar = function (req, res) {
     });
     res.status(204).send()
 };
+module.exports.userShownMyDay = function (req, res) {
+    let id = req.params.avatarID;
+    let data = req.body;
+    let timeStamp = Date.now();
+    console.log(data);
+    let doc = new Schema.UserShownMyDay({spotifyID:id, obj: data, timeStamp: timeStamp});
+    doc.save(function (err, postDoc) {
+        if(err) throw err;
+    });
+    res.status(204).send()
+};
 module.exports.userDownloadedAvatar = function (req, res) {
     let id = req.params.avatarID;
     let timeStamp = Date.now();
@@ -116,6 +127,17 @@ module.exports.userOpinion = function (req, res) {
     let opinion = req.body.userLikert;
 
     let newOpinion = new Schema.UserOpinion({'spotifyID': id, 'timeStamp': timeStamp, 'comment': comment, 'opinion': opinion})
+    newOpinion.save(function (err, op) {
+        if (err) throw err;
+        res.status(204).send()
+    })
+
+};
+module.exports.userComment = function (req, res) {
+    let id = req.cookies.avatarID;
+    let comment = req.body.comment;
+    let timeStamp = Date.now();
+    let newOpinion = new Schema.UserMyDayOpinion({'spotifyID': id, 'timeStamp': timeStamp, 'comment': comment});
     newOpinion.save(function (err, op) {
         if (err) throw err;
         res.status(204).send()
@@ -162,6 +184,17 @@ module.exports.avatarSptifyID = async function (req, res) {
                 avatar: data.avatar})
     }
 };
+module.exports.dayAvatarSpotifyID = async function (req, res) {
+    let userID = await req.params.spotifyID;
+    let now = new Date ();
+    let datenow = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), 0, 0);
+    console.log(datenow);
+    //res.send(datenow)
+    let data = await getDayActivity(userID, datenow);
+    let obj = await calculateAvatars(data);
+    res.send(obj)
+};
+
 module.exports.userOpinions = function (req, res) {
     let pass = req.cookies.loginPass;
     if(pass === 'qwedsa123'){Schema.UserOpinion.find(function (err, thread) {
@@ -195,7 +228,18 @@ module.exports.userAvatarType = function (req, res) {
         res.send(thread)
     })} else {res.send('Wrong password')}
 };
-
+module.exports.userShownDayStuff = function (req, res) {
+    let pass = req.cookies.loginPass;
+    if(pass === 'qwedsa123'){Schema.UserShownMyDay.find(function (err, thread) {
+        res.send(thread)
+    })} else {res.send('Wrong password')}
+};
+module.exports.userComments = function (req, res) {
+    let pass = req.cookies.loginPass;
+    if(pass === 'qwedsa123'){Schema.UserMyDayOpinion.find(function (err, thread) {
+        res.send(thread)
+    })} else {res.send('Wrong password')}
+};
 // GET DATA FOR AVATAR API
 function getLastTwoHours(userID) {
     return new Promise(function (resolve, reject) {
@@ -255,7 +299,38 @@ function calculateAvatar(data) {
         resolve(obj)
     })
 }
-
+function getDayActivity(userID, datenow) {
+    return new Promise(function (resolve, reject) {
+        Schema.User.findOne({spotifyID: userID}).populate('recentlyPlayed').exec(function (err, user) {
+            if(err) reject(err);
+            let data = [];
+            for (let i = 0; i <= 11; i++){
+                data.push({data: [], avatar: user.avatar_type});
+                user.recentlyPlayed.recentlyPlayed.forEach(function (p) {
+                    let date = (Date.parse(datenow) - (7200000 * i)) - Date.parse(p.played_at);
+                    if(7200000 > parseFloat(date) && parseFloat(date)>0){
+                        //let temmp = p.reverse();
+                        data[i].data.unshift(p);
+                    }
+                });
+            }
+            resolve(data);
+        });
+    })
+}
+async function calculateAvatars(data) {
+    let temp =[];
+    for (let obj of data){
+        //console.log(obj);
+        if(obj.data.length > 0){
+            let tempobj = await calculateAvatar(obj);
+            temp.push(tempobj)
+        } else {
+            temp.push({showAvatar: false, avatar: obj.avatar})
+        }
+    }
+    return temp;
+}
 //UPDATE/LOG IT SEGMENT
 function getUser(data) {
     return new Promise(function (resolve, reject) {
@@ -468,13 +543,13 @@ async function saveMusicFeatures(song) {
     })
 }
 
-
 //2. Get the recent songs from Spotify
 async function getRecentSongs(obj) {
     const param = await getLastRecordedSong(obj.recentlyPlayed === null, obj.spotifyID);
     return new Promise (function (resolve, reject) {
         spotifyApi.getMyRecentlyPlayedTracks(param).then(function (data) {
             var temp = [];
+            console.log(data.body);
             if(data.body.items.length > 0){
                 for(let p1 of data.body.items){
                     var tempList = [];
@@ -487,7 +562,6 @@ async function getRecentSongs(obj) {
                         artist: tempList
                     })
                 }
-
                 temp = temp.reverse();
                 //console.log('is there somthing: ' + temp);
                 resolve({temp: temp, obj: obj});
@@ -509,13 +583,19 @@ function getLastRecordedSong(bool, string) {
             resolve({limit: 50})
         }
         else {
+            console.log('we are here')
             Schema.UserData.findOne({spotifyID: string}, function (err, array) {
-                if(err) reject(err);
-                if(array=== null){
+                if(err) resolve({limit: 50});
+
+                if(array === null || array.recentlyPlayed.length === 0){
                     resolve({limit: 50})
                 }else {
-                    console.log({limit: 50, after: Date.parse(array.recentlyPlayed[array.recentlyPlayed.length - 1].played_at)});
-                    resolve({limit: 50, after: Date.parse(array.recentlyPlayed[array.recentlyPlayed.length - 1].played_at)})
+                    let lastSong = Date.parse(array.recentlyPlayed[array.recentlyPlayed.length - 1].played_at);
+                    if(lastSong === undefined){
+                        resolve({limit: 50})
+                    } else {
+                    console.log({limit: 50, after: lastSong});
+                    resolve({limit: 50, after: lastSong})}
                 }
             })
         }

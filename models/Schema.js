@@ -25,6 +25,12 @@ module.exports = function(mongoose) {
         'opinion': Number
     }, {collection: 'UserOpinion'});
 
+    let userMyDayOpinion = new Schema({
+        'spotifyID': String,
+        'timeStamp': Date,
+        'comment': String
+    }, {collection: 'UserMyDayOpinion'});
+
     let userActivity = new Schema({
         'spotifyID': String,
         'timeStamp': Date,
@@ -59,6 +65,12 @@ module.exports = function(mongoose) {
         'obj': {}
     }, {collection: 'UserShownAvatar'});
 
+    let userShownMyDay = new Schema({
+        'spotifyID': String,
+        'timeStamp': Date,
+        'obj': {}
+    }, {collection: 'UserShownMyDay'});
+
     let userChangeAvatar = new Schema({
         'spotifyID': String,
         'changedTo': String,
@@ -74,6 +86,8 @@ module.exports = function(mongoose) {
 
     return { User : mongoose.model('User', user),
             MusicFeatures: mongoose.model('MusicFeatures', songs),
+            UserMyDayOpinion: mongoose.model('UserMyDayOpinion', userMyDayOpinion),
+            UserShownMyDay: mongoose.model('UserShownMyDay', userShownMyDay),
             //Calendar: mongoose.model('Calendar', calendar),
             UserDownloadImg: mongoose.model('UserDownloadImg', userDownloadImg),
             UserChangeAvatar: mongoose.model('UserChangeAvatar', userChangeAvatar),

@@ -12,9 +12,10 @@ function avatarPageLogic(spotifyID, timeStamp, cb) {
                         window.location.assign('/chooseAvatar')
                     } else {
                         if(result.showAvatar){
-                            var avatar = new Avatar(result);
+                            var avatar = new Avatar(result, "#grid");
                             avatar.generateAvatar();
                             $('#privacy').removeClass('tooLong');
+                            $('#myDay').removeClass('tooLong');
                             $('#aboutAvatar').removeClass('tooLong');
                             $('#downloadAvatar').removeClass('tooLong');
                             $('#userLikerd').removeClass('tooLong');
@@ -23,11 +24,12 @@ function avatarPageLogic(spotifyID, timeStamp, cb) {
                         } else {
                             $('#privacy').removeClass('tooLong');
                             $('#aboutAvatar').removeClass('tooLong');
+                            $('#myDay').removeClass('tooLong');
                             $('#grid').append(
                                 '<div class="bg-warning text-white p-1">' +
                                 '<p class="p-0 m-0">' +
                                 'Sorry, we didn\'t receive any records for music activity in the past two hours from your Spotify account' +
-                                '</p><' +
+                                '<br><strong>NOTE!</strong> It is important for you to have been using Spotify in the last 2 hours in order to generate the avatar</p><' +
                                 '/div>' +
                                 '<div class="w-100 d-block p-5 m-sm-5"></div>' +
                                 '<div class="w-100 d-block p-3 m-3"></div>')

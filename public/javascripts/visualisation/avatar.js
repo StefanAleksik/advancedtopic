@@ -2,7 +2,7 @@
  * Created by Stefan Aleksik on 19.2.2018.
  */
 
-function Avatar(obj) {
+function Avatar(obj, string) {
     AvatarColors.call(this);
     AvatarStaticBody.call(this);
     AvatarDynamicBody.call(this);
@@ -12,10 +12,10 @@ function Avatar(obj) {
         var static = this.returnStaticElements(obj.avatar);
         var dynamic = this.generateDynamicElemnts(obj);
         var avatar = dynamic.concat(static);
-        var size = this.getWindowSize();
+        var size = this.getWindowSize(string);
         var grid = this.avatarToGrid(avatar, size.squereSideSize);
 
-        this.render(grid, size);
+        this.render(grid, size, string);
     }
 }
 
@@ -578,9 +578,9 @@ function Grid() {
         });
         return color
     }
-    this.getWindowSize = function () {
-        var width = $('#grid').width();
-        var squereSideSize = Math.floor(width/28);
+    this.getWindowSize = function (string) {
+        var width = $(string).width();
+        var squereSideSize = Math.floor(width/29);
         var svgWidth = 29*squereSideSize;
         var svgHeight = 49*squereSideSize;
 
@@ -617,8 +617,8 @@ function Grid() {
     };
 
 
-    this.render = function (data, obj) {
-        d3.select("#grid")
+    this.render = function (data, obj, string) {
+        d3.select(string)
             .append("svg")
             .attr("width", obj.svgWidth)
             .attr("height",obj.svgHeight)
